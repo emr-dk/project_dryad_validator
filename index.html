@@ -26,13 +26,11 @@
 
         <script>
             var map = L.map('map').setView([55.6761, 12.5683], 13);
-            map.addControl(
-  L.control.locate({
-    locateOptions: {
+            L.control.locate({
+               locateOptions: {
       enableHighAccuracy: true
     }
   })
-);
 
             
             L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
