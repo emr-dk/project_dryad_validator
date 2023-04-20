@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <style>
         #map {
@@ -10,22 +11,43 @@
     <body>
         <div id="map"></div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
         <!-- Load Leaflet code library: see https://leafletjs.com/download.html -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
         <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+        
+        <!-- load markercluster -->     
+        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+        <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+        
+        <!-- leaflet locate plugin -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+
         <script>
-            var map = L.map('map').setView([51.505, -0.09], 13);
+            var map = L.map('map').setView([55.6761, 12.5683], 13);
+            L.control.locate().addTo(map);
+            
             L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
                 attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
                     '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
                     'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-                maxZoom: 18
+                    maxZoom: 25
             }).addTo(map);
-
+            
+            $.ajaxSetup({async:false});
+            var markers = L.markerClusterGroup({
+                disableClusteringAtZoom: 25,
+            });
             var treesData = $.getJSON("https://raw.githubusercontent.com/emr-dk/project_dryad_validator/main/data/trees.json", function(data) {return data});
             var crownsData = $.getJSON("https://raw.githubusercontent.com/emr-dk/project_dryad_validator/main/data/crowns.json", function(data) {return data});
-            var trees = L.geoJson(treesData.responseJSON).addTo(map);
-            var crowns = L.geoJson(crownsData.responseJSON).addTo(map);
+            var trees = L.geoJson(treesData.responseJSON);
+            var crowns = L.geoJson(crownsData.responseJSON);
+
+            markers.addLayer(trees);
+
+            map.addLayer(markers);
+
         </script>
         
     </body>
