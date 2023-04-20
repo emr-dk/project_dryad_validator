@@ -1,0 +1,31 @@
+<html>
+    <style>
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+    <body>
+        <div id="map"></div>
+        <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+        <script>
+            var map = L.map('map').setView([51.505, -0.09], 13);
+            L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+                    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                maxZoom: 18
+            }).addTo(map);
+
+            var treesData = $.getJSON("/data/trees.json", function(data) {return data});
+            var crownsData = $.getJSON("/data/crowns.json", function(data) {return data});
+            var trees = L.geoJson(treesData.responseJSON).addTo(map);
+            var crowns = L.geoJson(crownsData.responseJSON).addTo(map);
+        </script>
+        
+    </body>
+</html>
