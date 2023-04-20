@@ -22,8 +22,8 @@
                 maxZoom: 18
             }).addTo(map);
 
-            var treesData = $.getJSON("https://github.com/emr-dk/project_dryad_validator/tree/main/data/trees.json", function(data) {return data});
-            var crownsData = $.getJSON("https://github.com/emr-dk/project_dryad_validator/tree/main/data/crowns.json", function(data) {return data});
+            var treesData = $.getJSON("https://raw.githubusercontent.com/emr-dk/project_dryad_validator/main/data/trees.json", function(data) {return data});
+            var crownsData = $.getJSON("https://raw.githubusercontent.com/emr-dk/project_dryad_validator/main/data/crowns.jsonjson", function(data) {return data});
             var trees = L.geoJson(treesData.responseJSON).addTo(map);
             var crowns = L.geoJson(crownsData.responseJSON).addTo(map);
         </script>
